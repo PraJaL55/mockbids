@@ -25,10 +25,11 @@
 	<div class="container">
 		<?php
 		//Find all houses
-		$houseQuery = mysql_query("SELECT * FROM housedata") or trigger_error(mysql_error());
-		while ($rowmem = mysql_fetch_array($houseQuery)) {
-			$houseName = $rowmem['housename'];
+		$houseQuery = mysqli_query($conn, "SELECT * FROM housedata");
+		
+		while ($rowmem = mysqli_fetch_array($houseQuery, MYSQLI_ASSOC)) {
 			$displayPrice = $rowmem['displayprice'];
+			$houseName = $rowmem['housename'];
 			$sellingPrice = $rowmem['sellingprice'];
 			$mockbidPrice = $rowmem['mockbidprice'];
 			$houseId = $rowmem['houseid'];
@@ -38,11 +39,11 @@
 		  <div class="card_container">
 			<h4><b><?php echo $houseName; ?></b></h4>
 			<div class="house-info">
-				<p class = "house-info-p">Market Price: $<? echo $displayPrice; ?> </p>
+				<p class = "house-info-p">Market Price: $<?php echo $displayPrice; ?> </p>
 				<p id="mockbid-p-<?php echo $houseId; ?>" class = "house-info-p">
 				<?php if($mockbidPrice != null){ ?>
-				Your Mockbid Price: $<? echo $mockbidPrice; ?>
-				<? } else { ?>
+				Your Mockbid Price: $<?php echo $mockbidPrice; ?>
+				<?php } else { ?>
 					<button class="mockbid-btn" id="mockbid-btn-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">Mockbid this house</button>
 				<?php }?>
 				</p>

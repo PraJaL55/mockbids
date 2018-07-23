@@ -6,6 +6,6 @@ $houseId = $_GET['houseId'];
 $mockbidPrice = $_GET['mockbid_price'];
 
 //Update mockbidPrice
-$insertQuery = mysql_query("UPDATE housedata SET mockbidprice = '$mockbidPrice' WHERE houseid = '$houseId'");
+$insertQuery = mysqli_query($conn , "UPDATE housedata SET mockbidprice = '$mockbidPrice' WHERE houseid = '$houseId'");
 ?>
 
