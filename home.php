@@ -17,15 +17,11 @@
 		}
 		else{
 			header('Location:index.php?loggedin=Invalid%20username%20or%20password');
-			echo '<h4>Invalid username or password</h4>';
-			exit;
 		}
 	}
 	else {
 		if(!isset($_SESSION['loggedin'])){
 			header('Location:index.php?loggedin=Please%20Login%20To%20See%20The%20Page');
-		echo '<h4>Please Login to see the page</h4>';
-		exit;
 		}
 	}
 ?>
@@ -59,8 +55,12 @@
 			$displayPrice = $rowmem['displayprice'];
 			$houseName = $rowmem['housename'];
 			$sellingPrice = $rowmem['sellingprice'];
-			$mockbidPrice = $rowmem['mockbidprice'];
 			$houseId = $rowmem['houseid'];
+
+			$mockbidQuery = mysqli_query($conn, "SELECT mockbiddata.mockbid_price FROM users INNER JOIN mockbiddata ON users.user_id=mockbiddata.m_user_id WHERE users.user_name='$username' AND mockbiddata.m_house_id = '$houseId' ");
+			while($row = mysqli_fetch_array($mockbidQuery, MYSQLI_ASSOC)){
+				$mockbidPrice = $row['mockbid_price'];
+			}
 		?>
 		<div class="card">
 		  <img src="img_avatar.png" alt="Avatar" style="width:100%">
@@ -91,22 +91,23 @@
 					<input class="mockbid-input" type="text" id = "mockbid-price-<?php echo $houseId; ?>"></input>
 				</div>
 				<div class="center">
-					<button class="mockbid-submit-btn" id="mockbid-submit-btn-<?php echo $houseId; ?>" onclick="enterMockbidCall(<?php echo $houseId; ?>)">Submit</button>
+					<button class="mockbid-submit-btn" id="mockbid-submit-btn-<?php echo $houseId; ?>" onclick="enterMockbidCall('<?php echo $username; ?>',<?php echo $houseId; ?>)">Submit</button>
 				</div>
 			</div>
 		  </div>
 		</div>
-		<?php } ?>
+		<?php $mockbidPrice = ""; } ?>
 		
 	</div>
 	<script type="text/javascript">
-		function enterMockbidCall(houseId){
+		function enterMockbidCall(username, houseId){
 			var mockbidPrice = document.getElementById('mockbid-price-'+houseId).value;
-			enterMockbid(houseId, mockbidPrice);
+			console.log(username);
+			enterMockbid(username, houseId, mockbidPrice);
 		}
 	</script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	crossorigin="anonymous"></script>
-	<script src="js/index.js"></script>
+	<script src="js/home.js"></script>
 </body>
 </html>
