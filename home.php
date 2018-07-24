@@ -57,6 +57,7 @@
 			$sellingPrice = $rowmem['sellingprice'];
 			$houseId = $rowmem['houseid'];
 
+			$username = $_SESSION['username'];
 			$mockbidQuery = mysqli_query($conn, "SELECT mockbiddata.mockbid_price FROM users INNER JOIN mockbiddata ON users.user_id=mockbiddata.m_user_id WHERE users.user_name='$username' AND mockbiddata.m_house_id = '$houseId' ");
 			while($row = mysqli_fetch_array($mockbidQuery, MYSQLI_ASSOC)){
 				$mockbidPrice = $row['mockbid_price'];
@@ -98,7 +99,7 @@
 		</div>
 		<?php $mockbidPrice = ""; } ?>
 		
-	</div>
+	</div> 
 	<script type="text/javascript">
 		function enterMockbidCall(username, houseId){
 			var mockbidPrice = document.getElementById('mockbid-price-'+houseId).value;
