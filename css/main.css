@@ -68,7 +68,7 @@ body, html {
     clear: both;
 }
 
-.mockbid-btn, .mockbid-submit-btn, .header-btn {
+.mockbid-btn, .mockbid-submit-btn, .header-btn, .more-info {
 	background: #5d8ffc;
     color: #fff;
     border: 1px solid #5d8ffc;
@@ -80,7 +80,7 @@ body, html {
 	-moz-transition: 0.3s;
 }
 
-.mockbid-btn:hover, .mockbid-submit-btn:hover, .header-btn:hover {
+.mockbid-btn:hover, .mockbid-submit-btn:hover, .header-btn:hover, .more-info {
 	background: #fff;
 	color: #5d8ffc;
 	border: 1px solid #5d8ffc;
@@ -114,6 +114,7 @@ body, html {
 
 .mockbid-txt {
 	text-align: center;
+  font-weight: bold;
 }
 
 input, button {
@@ -170,4 +171,20 @@ input, button {
 	font-family: 'Nanum Brush Script', cursive;
     font-size: 60px;
 	color: #ededed;
+}
+
+.more-info {
+  float: right;
+  margin-top: -33px;
+}
+
+.table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+.td, .th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
 }
