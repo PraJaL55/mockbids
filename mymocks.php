@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <?php
 	include 'db_connect.php';
 	session_start();
@@ -80,11 +80,12 @@
 		     </div>
 		    </a>
 		</div>
+		<br>
 
 	<?php } 
 	$totalAccuracyScore=$totalAccuracy/$count; ?>
-	<div>
-		<p>Your ZMockBid Score is: <br><?php echo $totalAccuracyScore*100; ?></p>
+	<div class="final-score">
+		<p>Your Total ZMockBid Score is: <br><?php echo $totalAccuracyScore*100; ?></p>
 	</div>
 </div> 
 

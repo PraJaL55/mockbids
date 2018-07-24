@@ -50,7 +50,7 @@
 		<div id="inside-header" class="centered">Softbids</div>
 		<div class="header-btn-container">
 			<a href="logout.php" class="header-btn" id="logout-btn">Logout</a>
-			<a href ="mymocks.php" class="header-btn" id="mymock-btn">My mocks</a>
+			<a href ="mymocks.php" class="header-btn" id="mymock-btn">My bids</a>
 			<?php
 				if($user_admin){
 			?> <a href ="admin.php" class="header-btn" id="admin-btn">Admin</a>
@@ -85,7 +85,7 @@
 				<?php if($mockbidPrice != null){ ?>
 				Your Mockbid Price: $<?php echo $mockbidPrice; ?>
 				<?php } else { ?>
-					<button class="mockbid-btn" id="mockbid-btn-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">Mockbid this house</button>
+					<button class="mockbid-btn" id="mockbid-btn-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">SoftBid this house</button>
 				<?php }?>
 				</p>
 				<div id="clear"></div>
@@ -99,7 +99,7 @@
 			<div class="w3-container">
 				<span onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='none'" 
 				class="w3-button w3-display-topright">&times;</span>
-				<p class="mockbid-txt">Enter Your Mockbid Price</p>
+				<p class="mockbid-txt">Enter Your SoftBid Price</p>
 				<div class="center">
 					<input class="mockbid-input" type="text" id = "mockbid-price-<?php echo $houseId; ?>"></input>
 				</div>

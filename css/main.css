@@ -188,3 +188,9 @@ input, button {
     text-align: left;
     padding: 8px;
 }
+
+.final-score {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}

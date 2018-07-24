@@ -7,13 +7,13 @@
 ?>
 <html>
 <head>
-	<title>Mockbids!</title>
+	<title>SoftBids!</title>
 	<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body class="bg">
 	
-	<div class="centered">Mockbids</div>
+	<div class="centered">SoftBids</div>
 	
 	<div id="login_div" class="main-div">
 		<form name="login_form" action = "home.php" method="post">
