@@ -37,16 +37,21 @@
 			$sellingPrice = $rows['sellingprice'];
 			$houseId = $rows['houseid'];
 			$mockbidPrice = $rows['mockbid_price'];
-			$individualHouseAccuracy = round(abs(($sellingPrice-$mockbidPrice)/$sellingPrice)*100,2);
+			if($sellingPrice!=null){
+			$individualHouseAccuracy = 100-round(abs(($sellingPrice-$mockbidPrice)/$sellingPrice)*100,2);
 			$totalAccuracy = $totalAccuracy+($individualHouseAccuracy/100);
-			$count++;
+				$count++;}
+			else
+			$individualHouseAccuracy = 0;
+			
+		
 				?>
 
 
 
 		<div class="list-group">
 		    <a href="#" class="list-group-item">
-		      <h4 class="list-group-item-heading">House Name: <?php echo $houseName; ?> &nbsp &nbspHouse Accuracy: <?php echo $individualHouseAccuracy; ?> % </h4>
+		      <h4 class="list-group-item-heading">House Name: <?php echo $houseName; ?> &nbsp &nbsp<?php if($individualHouseAccuracy!=0){?>House Accuracy: <?php echo $individualHouseAccuracy; ?> % <?php } else { ?> House Not Sold<?php } ?> </h4>
 		      <div>
 		      	<button class="more-info" id="more-info-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">Click for details</button>
 
@@ -67,8 +72,8 @@
   								<tr class="td">
     								<td><?php echo $houseName; ?></td>
     								<td><?php echo $mockbidPrice; ?></td>
-    								<td><?php echo $sellingPrice; ?></td>
-    								<td><?php echo $individualHouseAccuracy; ?></td>
+    								<td><?php if($sellingPrice!=0){ echo $sellingPrice;} else {echo "-";} ?></td>
+    								<td><?php if($individualHouseAccuracy!=0){ echo $individualHouseAccuracy;} else {echo "-";}  ?></td>
   								</tr>
   							</table>
 						</div>
@@ -83,7 +88,7 @@
 		<br>
 
 	<?php } 
-	$totalAccuracyScore=$totalAccuracy/$count; ?>
+	$totalAccuracyScore=round($totalAccuracy/$count,4); ?>
 	<div class="final-score">
 		<p>Your Total ZMockBid Score is: <br><?php echo $totalAccuracyScore*100; ?></p>
 	</div>
