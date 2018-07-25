@@ -31,68 +31,68 @@
 		$userName=$_SESSION['username'];
 		$mockHouseQuery = mysqli_query($conn, "SELECT housedata.houseid, housedata.housename, housedata.displayprice, housedata.sellingprice, mockbiddata.mockbid_price FROM users INNER JOIN mockbiddata ON users.user_id=mockbiddata.m_user_id INNER JOIN housedata ON mockbiddata.m_house_id=housedata.houseid WHERE users.user_name = '$userName'");
 
+		$totalAccuracy = 0;
+		$count = 0;
 		while ($rows = mysqli_fetch_array($mockHouseQuery, MYSQLI_ASSOC)) {
 			$displayPrice = $rows['displayprice'];
 			$houseName = $rows['housename'];
 			$sellingPrice = $rows['sellingprice'];
 			$houseId = $rows['houseid'];
 			$mockbidPrice = $rows['mockbid_price'];
-			if($sellingPrice!=null){
-			$individualHouseAccuracy = 100-round(abs(($sellingPrice-$mockbidPrice)/$sellingPrice)*100,2);
-			$totalAccuracy = $totalAccuracy+($individualHouseAccuracy/100);
-				$count++;}
-			else
-			$individualHouseAccuracy = 0;
-			
-		
-				?>
 
-
+			if($sellingPrice != null){
+				//Calculate the error
+				$individualHouseAccuracy = 100 - round((abs($sellingPrice - $mockbidPrice) / $sellingPrice) * 100, 2);
+				$totalAccuracy = $totalAccuracy + ($individualHouseAccuracy / 100);
+				$count++;
+			} else {
+				$individualHouseAccuracy = 0;
+			}
+		?>
 
 		<div class="list-group">
 		    <a href="#" class="list-group-item">
-		      <h4 class="list-group-item-heading">House Name: <?php echo $houseName; ?> &nbsp &nbsp<?php if($individualHouseAccuracy!=0){?>House Accuracy: <?php echo $individualHouseAccuracy; ?> % <?php } else { ?> House Not Sold<?php } ?> </h4>
-		      <div>
-		      	<button class="more-info" id="more-info-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">Click for details</button>
+		     	<h4 class="list-group-item-heading">House Name: <?php echo $houseName; ?> &nbsp &nbsp<?php if($individualHouseAccuracy != 0){ ?> House Accuracy: <?php echo $individualHouseAccuracy; ?> % <?php } else { ?> House Not Sold <?php } ?> </h4>
+		     	<div>
+			     	<button class="more-info" id="more-info-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">Click for details</button>
 
-		      <div id="mockbid-modal-<?php echo $houseId; ?>" class="w3-modal w3-animate-zoom">
-		  		<div class="w3-modal-content">
-					<div class="w3-container">
-					<span onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='none'" 
-					class="w3-button w3-display-topright">&times;</span>
-					<p class="mockbid-txt">The details are:</p>
-						<div class="center">
-							<table class="table">
-  								<tr class="th">
-    								<th>House Name</th>
-    								<th>Your Mockbid Price</th>
-    								<th>Selling Price</th>
-    								<th>Your accuracy</th>
-  								</tr>
-  								<tr class="td">
-    								<td><?php echo $houseName; ?></td>
-    								<td><?php echo $mockbidPrice; ?></td>
-    								<td><?php if($sellingPrice!=0){ echo $sellingPrice;} else {echo "-";} ?></td>
-    								<td><?php if($individualHouseAccuracy!=0){ echo $individualHouseAccuracy;} else {echo "-";}  ?></td>
-  								</tr>
-  							</table>
-						</div>
-				
-					</div>
-		  		</div>
-			 </div>
-
-		     </div>
+			      	<div id="mockbid-modal-<?php echo $houseId; ?>" class="w3-modal w3-animate-zoom">
+				  		<div class="w3-modal-content">
+							<div class="w3-container">
+								<span onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='none'" 
+								class="w3-button w3-display-topright">&times;</span>
+								<p class="mockbid-txt">The details are:</p>
+								<div class="center">
+									<table class="table">
+		  								<tr class="th">
+		    								<th>House Name</th>
+		    								<th>Your Mockbid Price</th>
+		    								<th>Selling Price</th>
+		    								<th>Your accuracy</th>
+		  								</tr>
+		  								<tr class="td">
+		    								<td><?php echo $houseName; ?></td>
+		    								<td><?php echo $mockbidPrice; ?></td>
+		    								<td><?php if($sellingPrice != 0){ echo $sellingPrice;} else { echo "-"; } ?></td>
+		    								<td><?php if($individualHouseAccuracy != 0){ echo $individualHouseAccuracy;} else { echo "-"; }  ?></td>
+		  								</tr>
+		  							</table>
+								</div>
+							</div>
+				  		</div>
+				 	</div>
+		     	</div>
 		    </a>
 		</div>
+
 		<br>
 
-	<?php } 
-	$totalAccuracyScore=round($totalAccuracy/$count,4); ?>
-	<div class="final-score">
-		<p>Your Total ZMockBid Score is: <br><?php echo $totalAccuracyScore*100; ?></p>
-	</div>
-</div> 
+		<?php } 
+		$totalAccuracyScore=round($totalAccuracy/$count,4); ?>
+		<div class="final-score">
+			<p>Your Total ZSoftBid Score is: <br><?php echo $totalAccuracyScore*100; ?></p>
+		</div>
+	</div> 
 
 </body>
 </html>
