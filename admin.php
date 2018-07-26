@@ -37,10 +37,9 @@
 			$houseName = $rowmem['housename'];
 			$sellingPrice = $rowmem['sellingprice'];
 			$houseId = $rowmem['houseid'];
-			
+
 		?>
-		<div class="card">
-		  <img src="img_avatar.png" alt="Avatar" style="width:100%">
+		<div class="card" style="color:black">
 		  <div class="card_container">
 			<h4><b><?php echo $houseName; ?></b></h4>
 			<div class="house-info">

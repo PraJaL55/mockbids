@@ -33,10 +33,10 @@
 			<a href ="home.php" class="header-btn" id="mymock-btn" onclick="">Return to Home</a>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" style="margin-top:20px">
 		<?php
 		$userName=$_SESSION['username'];
-		$mockHouseQuery = mysqli_query($conn, "SELECT housedata.houseid, housedata.housename, housedata.displayprice, housedata.sellingprice, mockbiddata.mockbid_price FROM users INNER JOIN mockbiddata ON users.user_id=mockbiddata.m_user_id INNER JOIN housedata ON mockbiddata.m_house_id=housedata.houseid WHERE users.user_name = '$userName'");
+		$mockHouseQuery = mysqli_query($conn, "SELECT housedata.houseid, housedata.housename, housedata.displayprice, housedata.sellingprice, mockbiddata.mockbid_price, mockbiddata.mockbid_score, mockbiddata.mockbid_id FROM users INNER JOIN mockbiddata ON users.user_id=mockbiddata.m_user_id INNER JOIN housedata ON mockbiddata.m_house_id=housedata.houseid WHERE users.user_name = '$userName'");
 
 		$totalAccuracy = 0;
 		$count = 0;
@@ -46,10 +46,16 @@
 			$sellingPrice = $rows['sellingprice'];
 			$houseId = $rows['houseid'];
 			$mockbidPrice = $rows['mockbid_price'];
+			$mockbidScore = $rows['mockbid_score'];
+			$mockbidId = $rows['mockbid_id'];
 
 			if($sellingPrice != null){
 				//Calculate the error
 				$individualHouseAccuracy = 100 - round((abs($sellingPrice - $mockbidPrice) / $sellingPrice) * 100, 2);
+				//insert into db
+				if($mockbid_score == null){
+					$insertScoreQuery = mysqli_query($conn, "UPDATE mockbiddata SET mockbid_score = '$individualHouseAccuracy' WHERE mockbid_id = '$mockbidId'");
+				}
 				$totalAccuracy = $totalAccuracy + ($individualHouseAccuracy / 100);
 				$count++;
 			} else {
@@ -59,7 +65,7 @@
 
 		<div class="list-group">
 		    <a href="#" class="list-group-item">
-		     	<h4 class="list-group-item-heading">House Name: <?php echo $houseName; ?> &nbsp &nbsp<?php if($individualHouseAccuracy != 0){ ?> House Accuracy: <?php echo $individualHouseAccuracy; ?> % <?php } else { ?> House Not Sold <?php } ?> </h4>
+		     	<h4 class="list-group-item-heading">House Name: <?php echo $houseName; ?> &nbsp &nbsp<?php if($individualHouseAccuracy != 0){ ?> Bid Accuracy: <?php echo $individualHouseAccuracy; ?> % <?php } else { ?> House Not Sold <?php } ?> </h4>
 		     	<div>
 			     	<button class="more-info" id="more-info-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">Click for details</button>
 
@@ -68,12 +74,12 @@
 							<div class="w3-container">
 								<span onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='none'" 
 								class="w3-button w3-display-topright">&times;</span>
-								<p class="mockbid-txt">The details are:</p>
-								<div class="center">
+								<p class="mockbid-txt">Softbid Details</p>
+								<div class="center" style="width: 100%">
 									<table class="table">
 		  								<tr class="th">
 		    								<th>House Name</th>
-		    								<th>Your Mockbid Price</th>
+		    								<th>Your Softbid Price</th>
 		    								<th>Selling Price</th>
 		    								<th>Your accuracy</th>
 		  								</tr>

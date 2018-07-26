@@ -86,6 +86,7 @@
 			$houseName = $rowmem['housename'];
 			$sellingPrice = $rowmem['sellingprice'];
 			$houseId = $rowmem['houseid'];
+			$houseImage = $rowmem['houseimage'];
 
 			$mockbidQuery = mysqli_query($conn, "SELECT mockbiddata.mockbid_price FROM users INNER JOIN mockbiddata ON users.user_id=mockbiddata.m_user_id WHERE users.user_name='$username' AND mockbiddata.m_house_id = '$houseId' ");
 			while($row = mysqli_fetch_array($mockbidQuery, MYSQLI_ASSOC)){
@@ -93,18 +94,18 @@
 			}
 		?>
 		<div class="card">
-		  <img src="img_avatar.png" alt="Avatar" style="width:100%">
+		  <div class="house-image" style= "background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<?php echo $houseImage; ?>');"></div>
 		  <div class="card_container">
-			<h4><b><?php echo $houseName; ?></b></h4>
+			<h2><b><?php echo $houseName; ?></b></h2>
 			<div class="house-info">
-				<p class = "house-info-p">Market Price: $<?php echo $displayPrice; ?> </p>
-				<p id="mockbid-p-<?php echo $houseId; ?>" class = "house-info-p">
+				<h5 class = "house-info-p">Market Price: $<?php echo $displayPrice; ?> </h5>
+				<h5 id="mockbid-p-<?php echo $houseId; ?>" class = "house-info-p">
 				<?php if($mockbidPrice != null){ ?>
-				Your Mockbid Price: $<?php echo $mockbidPrice; ?>
+				Your Softbid Price: $<?php echo $mockbidPrice; ?>
 				<?php } else { ?>
 					<button class="mockbid-btn" id="mockbid-btn-<?php echo $houseId; ?>" onclick="document.getElementById('mockbid-modal-<?php echo $houseId; ?>').style.display='block'">SoftBid this house</button>
 				<?php }?>
-				</p>
+				</h5>
 				<div id="clear"></div>
 			 </div>
 		  </div>
@@ -181,6 +182,9 @@
 		  </div>
 		</div>
 		
+		<!-- <div class="footer">
+				<p style="margin:10px;">Made with <i class="fa fa-heart"> by Saloni and Prajal.</i></p>
+			</div> -->
 	</div> 
 	<script type="text/javascript">
 		function enterMockbidCall(username, houseId){

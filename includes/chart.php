@@ -1,11 +1,10 @@
 
 <?php
  
- $fetchUserId=mysqli_query($conn,"SELECT users.user_id AS userId FROM users WHERE users.user_name='$userName'");
- while($rowUser = mysqli_fetch_array($fetchUserId, MYSQLI_ASSOC )){
+$fetchUserId=mysqli_query($conn,"SELECT users.user_id AS userId FROM users WHERE users.user_name='$userName'");
+while($rowUser = mysqli_fetch_array($fetchUserId, MYSQLI_ASSOC )){
  	$userIds=$rowUser['userId'];
- 
- }
+}
 
 
 
@@ -59,8 +58,7 @@ while ($rowsChart = mysqli_fetch_array($chartWindow, MYSQLI_ASSOC)) {
  	}
 ?>
 
-<html>
-<head>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 
 <script>
 window.onload = function () {
  
@@ -86,9 +84,7 @@ chart.render();
  
 }
 </script>
-</head>
-<body>
-<div id="chartContainer" style="height: 370px; width: 100%; display: none;"></div>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-</body>
-</html>                              
+<div class="container">
+	<div id="chartContainer" class="center" style="display: none; width: 46%; height: 370px;"></div>
+</div>
+                         
