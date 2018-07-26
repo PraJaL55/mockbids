@@ -6,6 +6,13 @@
 			header('Location:index.php?loggedin=Please%20Login%20To%20See%20The%20Page');
 		}
 
+	$notificationId = isset($_REQUEST['notificationId']) ? $_REQUEST['notificationId'] : null;
+	$notificationHouseId = isset($_REQUEST['houseid']) ? $_REQUEST['houseid'] : null;
+
+	//Read notification
+	if($notificationId != null){
+		$readNotificationQuery = mysqli_query($conn, "UPDATE notifications SET read_bool = 1 WHERE notification_id = '$notificationId'");
+	}
 ?>
 <html>
 <head>
@@ -93,6 +100,12 @@
 			<p>Your Total ZSoftBid Score is: <br><?php echo $totalAccuracyScore*100; ?></p>
 		</div>
 	</div> 
+
+	<?php if($notificationHouseId != null){ ?>
+		<script type="text/javascript">
+			document.getElementById('mockbid-modal-<?php echo $notificationHouseId; ?>').style.display='block';
+		</script>
+	<?php } ?>
 
 </body>
 </html>

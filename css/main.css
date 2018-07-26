@@ -194,3 +194,47 @@ input, button {
   font-size: 20px;
   font-weight: bold;
 }
+
+#notification-icon {
+  font-size: 2em;
+  float: right;
+  margin-right: 10px;
+  margin-top: 18px;
+  color: #fff;
+}
+
+#circle-icon {
+  color: red;
+  font-size: 1.4em;
+}
+
+.inner {
+  position: absolute;
+  margin-left: 13px;
+  margin-top: 4px;
+  display: none;
+}
+
+.outer {
+  float: right;
+}
+
+.outer:hover {
+  cursor: pointer;
+}
+
+.more-detail {
+  background: #fff;
+  color: #5d8ffc;
+  border: 1px solid #5d8ffc;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.notification-count {
+    position: absolute;
+    color: white;
+    margin-left: 5px;
+    margin-top: -1px;
+}

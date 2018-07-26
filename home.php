@@ -24,6 +24,17 @@
 			header('Location:index.php?loggedin=Please%20Login%20To%20See%20The%20Page');
 		}
 	}
+
+	$username = $_SESSION['username'];
+
+	//Get unread notifications
+	$getUnreadNotificationQuery = mysqli_query($conn, "SELECT notification_id, houseid, housename, sellingprice, mockbid_price, mockbid_score, read_bool  FROM notifications INNER JOIN mockbiddata ON notifications.n_mockbid_id = mockbiddata.mockbid_id INNER JOIN housedata ON housedata.houseid = mockbiddata.m_house_id INNER JOIN users ON mockbiddata.m_user_id = users.user_id WHERE users.user_name = '$username' AND notifications.read_bool = 0");
+
+	$unreadNotificationCount = mysqli_num_rows($getUnreadNotificationQuery);
+
+	//Get read notifications
+	$getReadNotificationQuery = mysqli_query($conn, "SELECT houseid, housename, sellingprice, mockbid_price, mockbid_score, read_bool  FROM notifications INNER JOIN mockbiddata ON notifications.n_mockbid_id = mockbiddata.mockbid_id INNER JOIN housedata ON housedata.houseid = mockbiddata.m_house_id INNER JOIN users ON mockbiddata.m_user_id = users.user_id WHERE users.user_name = '$username' AND notifications.read_bool = 1");
+
 ?>
 
 
@@ -31,14 +42,13 @@
 <head>
 	<title>Zillow Softbids</title>
 	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 </head>
 
 <body>
 	<?php
-	$username = $_SESSION['username'];
 	//Find whether user is admin or not
 	$adminQuery = mysqli_query($conn, "SELECT user_admin FROM users WHERE user_name = '$username'");
 	while($row = mysqli_fetch_array($adminQuery, MYSQLI_ASSOC)){
@@ -56,6 +66,13 @@
 			?> <a href ="admin.php" class="header-btn" id="admin-btn">Admin</a>
 			<?php	} 
 			?>
+			<div class="outer" onclick="document.getElementById('notification-modal').style.display='block'">
+				<i id="notification-icon" class="fas fa-bell"></i>
+				<div class="inner" <?php if($unreadNotificationCount > 0) {?> style = "display:block" <?php } ?> >
+					<i class="notification-count"><?php echo $unreadNotificationCount; ?></i>
+					<i id ="circle-icon" class="fas fa-circle" ></i>
+				</div>
+			</div>
 		</div>
 	</div>
 	
@@ -93,7 +110,7 @@
 		  </div>
 		</div>
 		
-		<!-- The Modal -->
+		<!-- Softbid House Modal Modal -->
 		<div id="mockbid-modal-<?php echo $houseId; ?>" class="w3-modal w3-animate-zoom">
 		  <div class="w3-modal-content">
 			<div class="w3-container">
@@ -110,6 +127,59 @@
 		  </div>
 		</div>
 		<?php $mockbidPrice = ""; } ?>
+
+
+		<!-- The Notifications Modal -->
+		<div id="notification-modal" class="w3-modal">
+		  <div class="w3-modal-content w3-animate-zoom">
+		  	<header class="w3-container w3-teal"> 
+		     	<span onclick="document.getElementById('notification-modal').style.display='none'" 
+		      	class="w3-button w3-display-topright">&times;</span>
+		      	<h2>Notifications</h2>
+		    </header>
+		    <div class="w3-container">
+		      	<table class="table" style="border-collapse: unset">
+
+		      	<?php 
+				//Unread Notifications
+				while($row = mysqli_fetch_array($getUnreadNotificationQuery, MYSQLI_ASSOC)){
+					$notificationId = $row['notification_id'];
+					$houseId = $row['houseid'];
+					$houseName = $row['housename'];
+					$sellingPrice = $row['sellingprice'];
+					$mockbidPrice = $row['mockbid_price'];
+					$mockbidScore = $row['mockbid_score'];
+					$read_bool = $row['read_bool'];
+					?>
+					<tr class="td">
+						<td><i id ="circle-icon" class="fas fa-circle" ></i></td>
+						<td><p> Your softbidded property - <i><?php echo $houseName; ?></i> is sold at <i>$<?php echo $sellingPrice; ?></i>&nbsp; and your Softbid Score is: <i><?php echo $mockbidScore; ?></i></p></td>
+						<td><a class="more-detail" href="mymocks.php?houseid=<?php echo $houseId;?>&notificationId=<?php echo $notificationId; ?>">More details</a></td>
+					</tr>
+					
+				<?php } ?>
+
+				<?php
+				//Read Notifications
+				while($row = mysqli_fetch_array($getReadNotificationQuery, MYSQLI_ASSOC)){
+					$houseId = $row['houseid'];
+					$houseName = $row['housename'];
+					$sellingPrice = $row['sellingprice'];
+					$mockbidPrice = $row['mockbid_price'];
+					$mockbidScore = $row['mockbid_score'];
+					$read_bool = $row['read_bool'];
+					?>
+					<tr class="td">
+						<td><i id ="circle-icon" class="fas fa-circle" style="color: black" ></i></td>
+						<td><p> Your softbidded property - <i><?php echo $houseName; ?></i> is sold at <i>$<?php echo $sellingPrice; ?></i>&nbsp; and your Softbid Score is: <i><?php echo $mockbidScore; ?></i></p></td>
+						<td><a class="more-detail" href="mymocks.php?houseid=<?php echo $houseId;?>">More details</a></td>
+					</tr>
+					
+				<?php } ?>
+				</table>
+		    </div>
+		  </div>
+		</div>
 		
 	</div> 
 	<script type="text/javascript">
