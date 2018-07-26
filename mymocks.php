@@ -107,5 +107,11 @@
 		</script>
 	<?php } ?>
 
+	<div class="center">
+		<button class="view-analytics" id="chart-btn" onclick="document.getElementById('chartContainer').style.display='block' ">View Analytics</button>
+	</div>
+
+	<?php include "includes/chart.php"; ?>
+
 </body>
 </html>
